@@ -1,0 +1,54 @@
+﻿@model AdminProduct.Models.ProductListViewModel
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<h2>Product List</h2>
+
+<!-- Search Form -->
+<form method="get" action="@Url.Action("ProductList", "Admin")">
+    <div class="form-group">
+        <input type="text" name="search" value="@Model.SearchQuery" placeholder="Search by name" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<!-- Product Table -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Products != null && Model.Products.Any())
+        {
+            foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Amount</td>
+                    <td>@product.Description</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">No products found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+@if (Model.Products != null)
+{
+    <div class="text-center">
+        @Html.PagedListPager(Model.Products, page => Url.Action("ProductList", new { page, search = Model.SearchQuery }))
+    </div>
+}

@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Product List</h1>
+    <div id="product-list"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Call API to fetch products
+            $.ajax({
+                url: '/api/ProductApi',  // API endpoint
+                type: 'GET',
+                success: function (data) {
+                    // Loop through products and display them
+                    var productHtml = '';
+                    for (var i = 0; i < data.length; i++) {
+                        productHtml += '<div class="product-item">';
+                        productHtml += '<h3>' + data[i].Name + '</h3>';
+                        productHtml += '<p>' + data[i].Description + '</p>';
+                        productHtml += '<p>Price: ' + data[i].Amount + '</p>';
+                        productHtml += '<img src="' + data[i].ImageUrl + '" alt="' + data[i].Name + '" style="width: 100px;" />';
+                        productHtml += '</div>';
+                    }
+                    $('#product-list').html(productHtml);
+                },
+                error: function (xhr, status, error) {
+                    alert('Error fetching product data.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+﻿@model ProductAdmin.Models.Product
+
+<h2>Edit Product</h2>
+<form action="@Url.Action("EditProduct", new { id = Model.ProductId })" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@Model.ProductId" />
+
+    <label for="name">Name:</label>
+    <input type="text" name="name" value="@Model.Name" required />
+
+    <label for="amount">Amount:</label>
+    <input type="number" name="amount" value="@Model.Amount" required />
+
+    <label for="description">Description:</label>
+    <textarea name="description" required>@Model.Description</textarea>
+
+    <label for="image">Upload Image (optional):</label>
+    <input type="file" name="image" />
+
+    <button type="submit">Update</button>
+</form>
+
+

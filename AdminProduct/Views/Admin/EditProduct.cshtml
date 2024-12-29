@@ -1,0 +1,19 @@
+﻿@model AdminProduct.Models.Product
+
+<h2>Edit Product</h2>
+<form method="post" enctype="multipart/form-data" action="/Admin/EditProduct">
+    @Html.HiddenFor(m => m.ProductId)
+    <label>Name:</label>
+    @Html.TextBoxFor(m => m.Name)
+    <br />
+    <label>Amount:</label>
+    @Html.TextBoxFor(m => m.Amount, new { type = "number", step = "0.01" })
+    <br />
+    <label>Description:</label>
+    @Html.TextAreaFor(m => m.Description)
+    <br />
+    <label>Image:</label>
+    <input type="file" name="Image" />
+    <br />
+    <button type="submit">Update Product</button>
+</form>

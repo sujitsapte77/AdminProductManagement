@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "DeleteProduct";
+}
+
+<h2>DeleteProduct</h2>
+@foreach (var product in Model)
+{
+    <tr>
+        <td>@product.Name</td>
+        <td>@product.Amount</td>
+        <td>@product.Description</td>
+        <td>
+            <img src="@product.ImagePath" alt="@product.Name" width="50" height="50" />
+        </td>
+        <td>
+            <!-- Delete Button -->
+            <form method="post" action="@Url.Action("DeleteProduct", "Admin")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="productId" value="@product.ProductId" />
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+}
+

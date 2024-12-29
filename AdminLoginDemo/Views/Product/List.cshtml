@@ -1,0 +1,75 @@
+﻿@model PagedList.IPagedList<AdminLoginDemo.Models.Product>
+@using PagedList.Mvc;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List</title>
+    <link href="~/Content/PagedList.css" rel="stylesheet" /> <!-- PagedList CSS -->
+</head>
+<body>
+    <h2>Product Listing</h2>
+
+    <!-- Search Form -->
+    <form action="/Product/List" method="get">
+        <input type="text" name="search" placeholder="Search..." value="@Request.QueryString["search"]" />
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Display Products -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count > 0)
+            {
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Amount</td>
+                        <td>@product.Description</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(product.ImagePath))
+                            {
+                                <img src="@Url.Content(product.ImagePath)" alt="Image" width="50" height="50" />
+                            }
+                            else
+                            {
+                                <span>No Image</span>
+                            }
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Product", new { id = product.Id })">Edit</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">No products found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <!-- Pagination -->
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("List", new { page, search = Request.QueryString["search"] }))
+    </div>
+
+    <p><a href="/Account/Logout">Logout</a></p>
+</body>
+</html>
+

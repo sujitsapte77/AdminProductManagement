@@ -1,0 +1,47 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+/* Pagination Number Circle Styling */
+.pagination .page-item .page-link {
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 0;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff; /* Bootstrap primary color */
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: #0056b3; /* Slightly darker primary color */
+    color: #fff;
+    text-decoration: none;
+}
+
+

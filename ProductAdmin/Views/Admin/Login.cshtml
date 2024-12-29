@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<div class="container mt-5">
+    <h2 class="text-left mb-4">Login</h2>
+
+    <!-- Login Form -->
+    <form method="post" class="form-signin">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" class="form-control" required placeholder="Enter your username" />
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required placeholder="Enter your password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-1">Login</button>
+    </form>
+
+    <!-- Display Message -->
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-info mt-3">
+            @ViewBag.Message
+        </div>
+    }
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

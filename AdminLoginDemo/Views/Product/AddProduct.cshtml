@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<AdminLoginDemo.Models.Product>
+@using PagedList.Mvc;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Management</title>
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Manage Products</h2>
+
+    <!-- Display Success/Error Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div style="color: green;">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div style="color: red;">@TempData["ErrorMessage"]</div>
+    }
+
+    <!-- Product Creation Form -->
+    <h3>Add New Product</h3>
+    <form action="/Product/AddProduct" method="post" enctype="multipart/form-data">
+        <label>Name:</label>
+        <input type="text" name="Name" required /><br />
+
+        <label>Amount:</label>
+        <input type="number" name="Amount" required /><br />
+
+        <label>Description:</label>
+        <textarea name="Description"></textarea><br />
+
+        <label>Image:</label>
+        <input type="file" name="imageFile" /><br />
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    <!-- Product Listing -->
+    <h3>Product List</h3>
+
+    <!-- Search Form -->
+    <form action="/Product/List" method="get">
+        <input type="text" name="search" placeholder="Search..." value="@Request.QueryString["search"]" />
+        <button type="submit">Search</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count > 0)
+            {
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Amount</td>
+                        <td>@product.Description</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(product.ImagePath))
+                            {
+                                <img src="@Url.Content(product.ImagePath)" alt="Image" width="50" height="50" />
+                            }
+                            else
+                            {
+                                <span>No Image</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">No products found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }))
+    </div>
+</body>
+</html>
+

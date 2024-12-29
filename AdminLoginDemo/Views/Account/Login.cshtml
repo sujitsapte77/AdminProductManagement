@@ -1,0 +1,27 @@
+﻿@model AdminLoginDemo.Models.Admin
+    <!DOCTYPE HTML>
+<html>
+<head>
+    <title>
+        Admin Login
+    </title>
+</head>
+<body>
+    <h2>Admin Login</h2>
+    @if (ViewBag.Message != null)
+    {
+        <p style="color: red;">@ViewBag.Message</p>
+    }
+    <form action="/Account/Login" method="post">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="Username" required />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="Password" required />
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>
