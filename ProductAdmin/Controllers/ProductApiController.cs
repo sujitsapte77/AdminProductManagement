@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -37,24 +38,19 @@ namespace ProductAdmin.Controllers
                         conn.Open();
 
                         // Get total record count
-                        string countQuery = "SELECT COUNT(*) FROM Products WHERE Name LIKE @Search";
-                        using (SqlCommand countCmd = new SqlCommand(countQuery, conn))
+                       
+                        using (SqlCommand countCmd = new SqlCommand("usp_CountProducts", conn))
                         {
-                            countCmd.Parameters.AddWithValue("@Search", "%" + search + "%");
+                        countCmd.CommandType = CommandType.StoredProcedure;
+                        countCmd.Parameters.AddWithValue("@Search", "%" + search + "%");
                             totalRecords = Convert.ToInt32(countCmd.ExecuteScalar());
                         }
 
                         // Get paginated data
-                        string query = @"
-                        SELECT * 
-                        FROM (
-                            SELECT ROW_NUMBER() OVER (ORDER BY ProductId DESC) AS RowNum, * 
-                            FROM Products 
-                            WHERE Name LIKE @Search
-                        ) AS Result 
-                        WHERE RowNum BETWEEN @Start AND @End";
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+
+                        using (SqlCommand cmd = new SqlCommand("usp_GetPaginatedProducts", conn))
                         {
+                        cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.AddWithValue("@Search", "%" + search + "%");
                             cmd.Parameters.AddWithValue("@Start", (page - 1) * pageSize + 1);
                             cmd.Parameters.AddWithValue("@End", page * pageSize);

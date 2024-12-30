@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -27,8 +28,9 @@ namespace ProductAdmin.Controllers
         {
             using (SqlConnection conn = new SqlConnection(strcon))
             {
-                string query = "SELECT COUNT(1) FROM Admins WHERE Username = @Username AND Password = @Password";
-                SqlCommand cmd = new SqlCommand(query, conn);
+                //string query = "SELECT COUNT(1) FROM Admins WHERE Username = @Username AND Password = @Password";
+                SqlCommand cmd = new SqlCommand("sp_AdminLogin", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Username", username);
                 cmd.Parameters.AddWithValue("@Password", password); // Use hashing for passwords
 
@@ -80,8 +82,9 @@ namespace ProductAdmin.Controllers
 
             using (SqlConnection conn = new SqlConnection(strcon))
             {
-                string query = "INSERT INTO Products (Name, Amount, Description, ImagePath) VALUES (@Name, @Amount, @Description, @ImagePath)";
-                SqlCommand cmd = new SqlCommand(query, conn);
+                //string query = "INSERT INTO Products (Name, Amount, Description, ImagePath) VALUES (@Name, @Amount, @Description, @ImagePath)";
+                SqlCommand cmd = new SqlCommand("sp_InsertProduct", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", name);
                 cmd.Parameters.AddWithValue("@Amount", amount);
                 cmd.Parameters.AddWithValue("@Description", description);
@@ -101,8 +104,9 @@ namespace ProductAdmin.Controllers
             Product product = null;
             using (SqlConnection conn = new SqlConnection(strcon))
             {
-                string query = "SELECT * FROM Products WHERE ProductId = @ProductId";
-                SqlCommand cmd = new SqlCommand(query, conn);
+                //string query = "SELECT * FROM Products WHERE ProductId = @ProductId";
+                SqlCommand cmd = new SqlCommand("sp_GetProductById", conn);
+                cmd.CommandType=CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ProductId", id);
 
                 conn.Open();
@@ -244,8 +248,9 @@ namespace ProductAdmin.Controllers
             {
                 using (SqlConnection conn = new SqlConnection(strcon))
                 {
-                    string query = "DELETE FROM Products WHERE ProductId = @ProductId";
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    //string query = "DELETE FROM Products WHERE ProductId = @ProductId";
+                    SqlCommand cmd = new SqlCommand("sp_DeleteProduct", conn);
+                    cmd.CommandType=CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ProductId", id);
 
                     conn.Open();
